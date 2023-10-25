@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  postgres:
+    container_name: db
+    network_mode: my-network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=casper@21
+      - POSTGRES_DB=blogx
+    volumes:
+      - './db/init.sql:/docker-entrypoint-initdb.d/init.sql'
+    ports:
+      - '35432:5432'
+    restart: always
+    image: 'postgres:15.1-alpine'
+  api_auth:
+    container_name: auth
+    network_mode: my-network
+    environment:
+      - POSTGRES_DB=blogx
+      - POSTGRES_PASSWORD=casper@21
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=casper@21
+      - DB_NAME=blogx_db
+      - PORT=8080
+      - JWT_SECRET_KEY=blogx_secret_key
+      - BCRYPT_SALT_VALUE=12
+      - 'DB_URL=postgres://postgres:casper@21@db:5432/blogx?sslmode=disable'
+    ports:
+      - '8080:8080'
+    restart: always
+    links:
+      - postgres
+    image: 'api-auth'
+    build:
+      context: ./authentication/
+      dockerfile: Dockerfile
+volumes:
+  pg_data_blogx:
+networks:
+  my-network:
