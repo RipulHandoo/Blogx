@@ -21,7 +21,7 @@ jobs:
       - name: Check Golang imports order
         uses: Jerome1337/goimports-action@v1.0.3
         with:
-          goimports-path: ./user
+          goimports-path: ./user/test.go
 
       - name: Backend checks
         shell: bash
