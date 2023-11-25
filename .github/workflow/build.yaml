@@ -22,3 +22,9 @@ jobs:
         uses: Jerome1337/goimports-action@v1.0.3
         with:
           goimports-path: ./user
+
+      - name: Backend checks
+        shell: bash
+        run: |
+          cd user
+          make backend-services-checks
