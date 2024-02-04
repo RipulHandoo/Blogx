@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/RipulHandoo/blogx/authentication/db/database"
 	"github.com/RipulHandoo/blogx/authentication/pkg"
@@ -82,7 +81,7 @@ func HandleRegisterUser(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// create jwt token
-	token, expiryTime, jwtTokenError := utils.GetJwt(utils.Credential{
+	token, expiryTime, jwtTokenError := utils.GetJwt(utils.Credentials{
 		Email: bodyDecoded.Email,
 		Name:  user.FirstName + user.LastName,
 	})
@@ -92,7 +91,7 @@ func HandleRegisterUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	expiry := time.Unix(expiryTime, 0)
+	expiry := expiryTime
 
 	http.SetCookie(w, &http.Cookie{
 		Name:    "auth_token",

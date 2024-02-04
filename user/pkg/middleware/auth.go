@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/RipulHandoo/blogx/authentication/db/database"
-	"github.com/RipulHandoo/blogx/authentication/pkg"
-	"github.com/RipulHandoo/blogx/authentication/pkg/utils"
+	"github.com/RipulHandoo/blogx/user/db/database"
+	"github.com/RipulHandoo/blogx/user/pkg"
+	"github.com/RipulHandoo/blogx/user/pkg/utils"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )
@@ -20,7 +20,7 @@ func Auth(handler AuthHandler) http.HandlerFunc {
 		var jwtKey string = os.Getenv("JWT_SECRET_KEY")
 		jwtToken := req.Header.Get("auth_token")
 		if jwtToken == "" {
-			utils.ErrorResponse(w, http.StatusUnauthorized, fmt.Errorf("no auth token"))
+			utils.ResponseWithError(w, http.StatusUnauthorized, "no auth token")
 			fmt.Println("No auth token")
 			return
 		}
@@ -37,11 +37,11 @@ func Auth(handler AuthHandler) http.HandlerFunc {
 			}
 
 			fmt.Println("No valid jwt - " + tknStr)
-			utils.ErrorResponse(w, http.StatusUnauthorized, err)
+			utils.ResponseWithError(w, http.StatusUnauthorized, err.Error())
 			return
 		}
 		if !tkn.Valid {
-			utils.ErrorResponse(w, http.StatusUnauthorized, err)
+			utils.ResponseWithError(w, http.StatusUnauthorized, err.Error())
 			return
 		}
 		userEmail := claims.Creds.Email
@@ -49,7 +49,7 @@ func Auth(handler AuthHandler) http.HandlerFunc {
 
 		user, dbErr2 := apiConfig.GetUserByEmail(req.Context(), userEmail)
 		if dbErr2 != nil {
-			utils.ErrorResponse(w, http.StatusInternalServerError, dbErr2)
+			utils.ResponseWithError(w, http.StatusInternalServerError, dbErr2.Error())
 			return
 		}
 

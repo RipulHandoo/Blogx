@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/RipulHandoo/blogx/authentication/db/database"
-	"github.com/RipulHandoo/blogx/authentication/pkg"
-	"github.com/RipulHandoo/blogx/authentication/pkg/utils"
+	"github.com/SohamRatnaparkhi/blogx-backend-go/feed/db/database"
+	"github.com/SohamRatnaparkhi/blogx-backend-go/feed/pkg"
+	"github.com/SohamRatnaparkhi/blogx-backend-go/feed/pkg/utils"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )

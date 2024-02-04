@@ -19,10 +19,10 @@ import (
 // @router /auth/logout [post]
 func HandleUserLogout(w http.ResponseWriter, _ *http.Request, user database.User) {
 	//clear cookie
-	// http.SetCookie(w, &http.Cookie{
-	// 	Name:  "auth_token",
-	// 	Value: "",
-	// 	Path:  "/",
-	// })
+	http.SetCookie(w, &http.Cookie{
+		Name:  "auth_token",
+		Value: "",
+		Path:  "/",
+	})
 	utils.ResponseJson(w, http.StatusAccepted, utils.MapLoginUser(user))
 }

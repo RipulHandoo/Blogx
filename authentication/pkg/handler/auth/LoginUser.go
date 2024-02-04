@@ -3,7 +3,6 @@ package auth
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"github.com/RipulHandoo/blogx/authentication/pkg"
 	"github.com/RipulHandoo/blogx/authentication/pkg/utils"
@@ -46,14 +45,14 @@ func HandlerLoginuser(w http.ResponseWriter, req *http.Request) {
 
 	// generate the jwt token
 	token, expiryTime, err := utils.GetJwt(
-		utils.Credential{
+		utils.Credentials{
 			Email: user.Email,
 			Name: user.FirstName + " " + user.LastName,
 		},
 	)
-	var expiry = time.Unix(expiryTime, 0)
+	var expiry = expiryTime
 	http.SetCookie(w, &http.Cookie{
-		Name: "",
+		Name: "auth_token",
 		Value: token,
 		Expires: expiry,
 		Path: "/",

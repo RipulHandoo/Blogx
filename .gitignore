@@ -1,5 +1,6 @@
 # Actual .env file
 authentication/.env
+user/.env
 
 # Binaries for programs and plugins
 *.exe
@@ -8,3 +9,5 @@ authentication/.env
 *.so
 *.dylib
 *.dockerignore
+
+go.work
